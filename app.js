@@ -82,14 +82,28 @@ const menu = [
 ];
 
 const sectionCenter = document.querySelector(".section-center");
-const filterBtns = document.querySelectorAll(".filter-btn");
+const btnContainer = document.querySelector(".btn-container");
+
 
 // load items
 window.addEventListener("DOMContentLoaded",function(){
   displayMenuItems(menu);
-});
 
-// filter items
+  const categories = menu.reduce(function(values,item){
+    if(!values.includes(item.category)){
+      values.push(item.category);
+    }
+    return values;
+
+  },["all"]);
+
+  const categoryBtns = categories.map(function(category){
+    return `<button type="button" class="filter-btn" data-id= ${category} > ${category} </button>`
+  }).join("");
+  btnContainer.innerHTML = categoryBtns;
+  const filterBtns = document.querySelectorAll(".filter-btn");
+
+  // filter items
 filterBtns.forEach(function(btn){
   btn.addEventListener("click",function(e){
     const category = e.currentTarget.dataset.id;
@@ -110,6 +124,10 @@ filterBtns.forEach(function(btn){
   });
 });
 
+});
+
+
+// display items
 function displayMenuItems(menuItems){
   let displayMenu = menuItems.map(function(item){
     // console.log(item); 
